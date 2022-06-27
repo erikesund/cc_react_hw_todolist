@@ -1,23 +1,51 @@
-import logo from './logo.svg';
 import './App.css';
+import React, {useState} from 'react';
 
 function App() {
+
+  const [tasks, setTasks] = useState([
+  "Buy shopping", 
+  "Clean bathroom", 
+  "Car's MOT"
+]);
+
+  const [newTask, setNewTask] = useState("");
+
+  const taskNodes = tasks.map((task) => {
+    return (
+      <li>
+        <span>{task}</span>
+      </li>
+  )
+});
+
+  const handleTaskInput = (evt) => {
+    setNewTask(evt.target.value);
+  };
+
+  const saveNewTask = (evt) => {
+    evt.preventDefault();
+    const copyTasks = [...tasks];
+    copyTasks.push(newTask);
+    setTasks(copyTasks);
+    setNewTask("");
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>ToDo's</h1>
+      <hr></hr>
+
+      <form onSubmit={saveNewTask}>
+        <input id="new-task" type="text" value={newTask} onChange={handleTaskInput}/>
+        <label htmlFor='new-task'/>
+        <input type="submit" value="Save Item"/>
+      </form>
+
+      <ul>
+        {taskNodes}
+      </ul>
+
     </div>
   );
 }
